@@ -6,6 +6,7 @@
 
 package services;
 
+import database.Database;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.json.JsonObject;
@@ -46,7 +47,8 @@ public class ProductsREST {
         
         try {
             productList.add(new Product(json));
-            result = Response.ok().build();
+            int id = Database.getLastInsertID();
+            result = Response.ok("http://localhost:8080/CPD4414-Assign6/rs/products/" + id).build();
         } catch (Exception e) {
             result = Response.status(500).build();
             System.out.println(e);
@@ -62,7 +64,7 @@ public class ProductsREST {
         
         try {
             productList.set(id, new Product(json));
-            result = Response.ok().build();
+            result = Response.ok("http://localhost:8080/CPD4414-Assign6/rs/products/" + id).build();
         } catch (Exception e) {
             result = Response.status(500).build();
         }

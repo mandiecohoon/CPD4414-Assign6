@@ -85,4 +85,18 @@ public class Database {
         }
         return numChanges;
     }
+    
+    public static int getLastInsertID() {
+        int id = 1;
+        try (Connection conn = getConnection()) {
+            PreparedStatement pstmt = conn.prepareStatement("SELECT `productId` FROM products ORDER BY `productId` DESC LIMIT 1");
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                id = rs.getInt("productId");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductsREST.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return id;
+    }
 }
